@@ -1,60 +1,61 @@
 <template>
   <div class="container">
-    <h1>Hello {{ student }}</h1>
-    <button v-on:click="changeStudent">Change Student</button>
-    <h3>{{ animal }}</h3>
-    <button @click="changeAnimal">Change Animal</button>
-    <ul>
-      <li v-for="animal in animals" :key="animal">{{ animal }}</li>
-    </ul>
-    <h2 v-if="isLoggedIn">Welcome</h2>
-    <h2 v-else>Please Login</h2>
-    <button v-if="isLoggedIn" @click="logout">Logout</button>
-    <button v-else @click="login">Login</button>
+    <img :src="slots[0].image" />
+    <img :src="slots[1].image" />
+    <img :src="slots[2].image" />
+    <button @click="runSlots">Go!</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 
 export default {
   name: "Home",
   components: {},
   data() {
     return {
-      student: "Harry",
-      animals: ["horse", "savva", "pig", "Zebra", "lion"],
-      animal: "",
-      isLoggedIn: false,
+      symbols: [
+          {
+            image: 'https://static-cdn.jtvnw.net/emoticons/v1/1683701/3.0',
+            value: 100
+          },
+          {
+            image: 'https://static-cdn.jtvnw.net/emoticons/v1/980171/3.0',
+            value: 1000
+          },
+          {
+            image: 'https://cdn.betterttv.net/emote/5e6092d6d6581c3724bfe544/3x',
+            value: 250
+          },
+          {
+            image: 'https://cdn.betterttv.net/emote/5e5f1649d112fc372573b879/3x',
+            value: 500
+          },
+          {
+            image: 'https://cdn.betterttv.net/emote/5e6092b3d112fc372573c7f6/3x',
+            value: 0
+          }
+      ],
+      currentSymbol: "",
+      slots: []
     };
   },
   methods: {
-    changeStudent: function() {
-      this.student = "Charlene";
-    },
-    changeAnimal: function() {
-      let number = Math.floor(Math.random() * 5);
-      this.animal = this.animals[number];
-    },
-    login: function() {
-      this.isLoggedIn = true;
-    },
-    logout: function() {
-      this.isLoggedIn = false;
-    },
+    runSlots: function(){
+      for (let i = 0; i < 3; i++) {
+        let number = Math.floor(Math.random() * 5);
+        this.currentSymbol = this.symbols[number];
+        this.slots.push(this.currentSymbol);
+      }
+    }
   },
   created() {},
-  mounted() {
-    this.changeAnimal();
-  },
+  mounted() {},
   beforeCreate() {},
 };
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  font-size: 3rem;
-}
 button {
   font-size: 2rem;
 }
