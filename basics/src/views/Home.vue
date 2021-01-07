@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <img :src="slots[0].image" />
-    <img :src="slots[1].image" />
-    <img :src="slots[2].image" />
-    <button @click="runSlots">Go!</button>
+    <img v-bind:src="allSlots[0].image">
+    <img v-bind:src="allSlots[1].image">
+    <img v-bind:src="allSlots[2].image">
+    <h1>Objective is to get three of the same cats in a row. Refresh to retry.</h1>
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
           }
       ],
       currentSymbol: "",
-      slots: []
+      allSlots: [],
     };
   },
   methods: {
@@ -45,17 +45,24 @@ export default {
       for (let i = 0; i < 3; i++) {
         let number = Math.floor(Math.random() * 5);
         this.currentSymbol = this.symbols[number];
-        this.slots.push(this.currentSymbol);
+        this.allSlots.push(this.currentSymbol);
+        //why does Vue use variables in a way that makes God cry
+        //one moment you take you're coding and then BAM undefined
+        //and then you're confused because you're looking right at it??? no syntax error or anything????
+        //as I type this Vue is yelling at me with 1 error and 30 warning but it runs fine in mounted so no idea what that means
       }
-    }
+    },
   },
-  created() {},
-  mounted() {},
-  beforeCreate() {},
+  mounted(){
+    this.runSlots();
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+h1 {
+  font-size: 3rem;
+}
 button {
   font-size: 2rem;
 }
